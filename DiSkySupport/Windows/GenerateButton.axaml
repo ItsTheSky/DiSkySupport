@@ -1,0 +1,62 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="using:FluentAvalonia.UI.Controls"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
+        x:Class="DiSkySupport.Windows.GenerateButton" Icon="/Assets/DiSky.ico"
+        Title="Generate Button Code" Height="450" Width="400" CanResize="False" WindowStartupLocation="CenterOwner">
+    
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="avares://SkEditor/Styles/OnlyCloseButtonWindow.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Grid Margin="20">
+        <StackPanel Orientation="Vertical" Spacing="10">
+            <ui:InfoBar IsOpen="True" IsClosable="False" Severity="Warning" Message="Emojis cannot be previewed yet, but will be added in the future!" 
+                        HorizontalAlignment="Stretch"/>
+            <StackPanel Spacing="10">
+                <Grid ColumnDefinitions="*,*">
+                    <StackPanel Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Stretch">
+                        <TextBlock Text="Button Name"/>
+                        <TextBox Name="ButtonName" Text="Click me"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                        <TextBlock Text="Button Emoji"/>
+                        <TextBox Name="ButtonEmoji"/>
+                    </StackPanel>
+                </Grid>
+                <Grid ColumnDefinitions="*,*">
+                    <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                        <TextBlock Text="Button Style"/>
+                        <ComboBox Name="ButtonStyle" SelectedIndex="0" HorizontalAlignment="Stretch">
+                        <ComboBoxItem Content="Primary" Tag="primary"/>
+                        <ComboBoxItem Content="Success" Tag="success"/>
+                        <ComboBoxItem Content="Secondary" Tag="secondary"/>
+                        <ComboBoxItem Content="Danger" Tag="danger"/>
+                        <ComboBoxItem Content="Link" Tag="link"/>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                        <TextBlock Name="ButtonIdText" Text="Button ID"/>
+                        <TextBox Name="ButtonId"/>
+                    </StackPanel>
+                </Grid>
+                <StackPanel>
+                    <CheckBox Name="Disabled">Disabled?</CheckBox>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Stretch">
+                    <TextBlock Text="Preview"/>
+                    <Image Opacity="1" HorizontalAlignment="Center" VerticalAlignment="Center" Name="PreviewImage" Height="64" MaxHeight="64" MinHeight="64"></Image>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal" Spacing="10">
+            <Button Name="GenerateButtonCommand" Content="Generate" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+        </StackPanel>
+    </Grid>
+</Window>

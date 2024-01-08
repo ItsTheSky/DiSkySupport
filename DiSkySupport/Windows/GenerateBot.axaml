@@ -1,0 +1,107 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="using:FluentAvalonia.UI.Controls"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="DiSkySupport.Windows.GenerateBot" Icon="/Assets/DiSky.ico"
+        Title="Generate Bot Loading Code" Height="500" Width="900" CanResize="False" WindowStartupLocation="CenterOwner">
+    
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="avares://SkEditor/Styles/OnlyCloseButtonWindow.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Grid Margin="20">
+    <StackPanel Spacing="10">
+        <Grid ColumnDefinitions="*,*,*">
+            <StackPanel Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Stretch">
+                <TextBlock Text="Bot Name"/>
+                <TextBox Name="BotName"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="5,0,0,0" Grid.ColumnSpan="2">
+                <TextBlock Text="Bot Token"/>
+                <TextBox Name="BotToken" PasswordChar="*"/>
+            </StackPanel>
+        </Grid>
+        <Grid ColumnDefinitions="*,*,*">
+            <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                <TextBlock Text="Cache Flags"/>
+                <ComboBox Name="BotCacheFlags" SelectedIndex="0" HorizontalAlignment="Stretch">
+                    <ComboBoxItem Content="Default" Tag="default"/>
+                    <ComboBoxItem Content="Activity" Tag="activity"/>
+                    <ComboBoxItem Content="Client Status" Tag="client status"/>
+                    <ComboBoxItem Content="Emoji" Tag="emoji"/>
+                    <ComboBoxItem Content="Forum Tags" Tag="forum tags"/>
+                    <ComboBoxItem Content="Member Overrides" Tag="member overrides"/>
+                    <ComboBoxItem Content="Online Status" Tag="online status"/>
+                    <ComboBoxItem Content="Role Tags" Tag="role tags"/>
+                    <ComboBoxItem Content="Scheduled Events" Tag="scheduled events"/>
+                    <ComboBoxItem Content="Sticker" Tag="sticker"/>
+                    <ComboBoxItem Content="Voice State" Tag="voice state"/>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                <TextBlock Text="Cache Policy"/>
+                <ComboBox Name="BotCachePolicy" SelectedIndex="0" HorizontalAlignment="Stretch">
+                    <ComboBoxItem Content="Default" Tag="default"/>
+                    <ComboBoxItem Content="None" Tag="none"/>
+                    <ComboBoxItem Content="All" Tag="all"/>
+                    <ComboBoxItem Content="Owner" Tag="owner"/>
+                    <ComboBoxItem Content="Voice" Tag="voice"/>
+                    <ComboBoxItem Content="Online" Tag="online"/>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Grid.Column="2" Margin="5,0,0,0">
+                <TextBlock Text="Compression"/>
+                <ComboBox Name="BotCompression" SelectedIndex="0" HorizontalAlignment="Stretch">
+                    <ComboBoxItem Content="None" Tag="none"/>
+                    <ComboBoxItem Content="ZLib" Tag="zlib"/>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <Grid ColumnDefinitions="*,*,*">
+            <StackPanel Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Stretch">
+                <TextBlock Text="Reloading"/>
+                <CheckBox Name="AutoReconnect" Content="Auto Reconnect" IsChecked="False"/>
+                <CheckBox Name="ForceReload" Content="Force Reload" IsChecked="False"/>
+                <TextBlock Text="Section Generation" Margin="0 5 0 0"/>
+                <CheckBox Name="GenerateReady" Content="On Ready" IsChecked="True"/>
+                <CheckBox Name="GenerateGuildReady" Content="On Guild Ready" IsChecked="True"/>
+                <CheckBox Name="GenerateShutdown" Content="On Shutdown" IsChecked="False"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="5,0,0,0" Grid.ColumnSpan="2">
+                <TextBlock Text="Gateway Intents"/>
+                <Border BorderBrush="#25ffffff" BorderThickness="1" CornerRadius="5" Height="180">
+                    <ListBox Name="GatewayIntents" SelectionMode="Multiple" HorizontalAlignment="Stretch">
+                        <ListBoxItem Content="Default" Tag="default" IsSelected="True"/>
+                        <ListBoxItem Content="Auto Moderation Configuration" Tag="auto moderation configuration"/>
+                        <ListBoxItem Content="Auto Moderation Execution" Tag="auto moderation execution"/>
+                        <ListBoxItem Content="Direct Message Reactions" Tag="direct message reactions"/>
+                        <ListBoxItem Content="Direct Message Typing" Tag="direct message typing"/>
+                        <ListBoxItem Content="Direct Messages" Tag="direct messages"/>
+                        <ListBoxItem Content="Guild Bans" Tag="guild bans"/>
+                        <ListBoxItem Content="Guild Emojis And Stickers" Tag="guild emojis and stickers"/>
+                        <ListBoxItem Content="Guild Invites" Tag="guild invites"/>
+                        <ListBoxItem Content="Guild Members" Tag="guild members"/>
+                        <ListBoxItem Content="Guild Message Reactions" Tag="guild message reactions"/>
+                        <ListBoxItem Content="Guild Message Typing" Tag="guild message typing"/>
+                        <ListBoxItem Content="Guild Messages" Tag="guild messages"/>
+                        <ListBoxItem Content="Guild Moderation" Tag="guild moderation"/>
+                        <ListBoxItem Content="Guild Presences" Tag="guild presences"/>
+                        <ListBoxItem Content="Guild Voice States" Tag="guild voice states"/>
+                        <ListBoxItem Content="Guild Webhooks" Tag="guild webhooks"/>
+                        <ListBoxItem Content="Message Content" Tag="message content"/>
+                        <ListBoxItem Content="Scheduled Events" Tag="scheduled events"/>
+                    </ListBox>
+                </Border>
+            </StackPanel>
+        </Grid>
+    </StackPanel>
+    <Button Name="GenerateButton" Content="Generate" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+</Grid>
+    
+</Window>
