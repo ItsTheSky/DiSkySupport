@@ -1,7 +1,5 @@
 ﻿using System.Text;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using AvaloniaEdit;
 using AvaloniaEdit.Document;
 using CommunityToolkit.Mvvm.Input;
@@ -14,68 +12,81 @@ public partial class GenerateBot : AppWindow
 {
     public GenerateBot()
     {
-        InitializeComponent();
-        
-        GenerateButton.Command = new RelayCommand(Generate);
+        this.InitializeComponent();
+
+        this.GenerateButton.Command = new AsyncRelayCommand(this.Generate);
     }
 
-    public void Generate()
+    private async Task Generate()
     {
-        if (string.IsNullOrEmpty(BotName.Text) || string.IsNullOrEmpty(BotToken.Text))
+        if (string.IsNullOrEmpty(this.BotName.Text) || string.IsNullOrEmpty(this.BotToken.Text))
         {
-            ApiVault.Get().ShowMessage("Error", "You must fill the bot name and token fields.");
+            await SkEditorAPI.Windows.ShowMessage("Error", "You must fill the bot name and token fields.");
             return;
         }
-        
+
         StringBuilder code = new();
 
-        TextEditor editor = ApiVault.Get().GetTextEditor();
+        TextEditor? editor = SkEditorAPI.Files.GetCurrentOpenedFile()?.Editor;
+
+        if (editor == null)
+        {
+            this.Close();
+            return;
+        }
+
         int offset = editor.CaretOffset;
-        
-        code.Append($"define new bot named \"{BotName.Text}\":");
-        
+
+        code.Append($"define new bot named \"{this.BotName.Text}\":");
+
         // Basic infos
-        code.Append($"\n\ttoken: \"{BotToken.Text}\"");
-        if (!string.IsNullOrEmpty(BotCachePolicy.Tag as string)) code.Append($"\n\tpolicy: {BotCachePolicy.Tag.ToString()}");
-        if (!string.IsNullOrEmpty(BotCacheFlags.Tag as string)) code.Append($"\n\tcache flags: {BotCacheFlags.Tag.ToString()}");
-        if (!string.IsNullOrEmpty(BotCompression.Tag as string)) code.Append($"\n\tcompression: {BotCompression.Tag.ToString()}");
-        
+        code.Append($"\n\ttoken: \"{this.BotToken.Text}\"");
+        if (!string.IsNullOrEmpty(this.BotCachePolicy.Tag as string))
+            code.Append($"\n\tpolicy: {this.BotCachePolicy.Tag.ToString()}");
+        if (!string.IsNullOrEmpty(this.BotCacheFlags.Tag as string))
+            code.Append($"\n\tcache flags: {this.BotCacheFlags.Tag.ToString()}");
+        if (!string.IsNullOrEmpty(this.BotCompression.Tag as string))
+            code.Append($"\n\tcompression: {this.BotCompression.Tag.ToString()}");
+
         // Reloading 
-        code.Append($"\n\n\tauto reconnect: {AutoReconnect.IsChecked.ToString()?.ToLower()}");
-        code.Append($"\n\tforce reload: {ForceReload.IsChecked.ToString()?.ToLower()}");
-        
+        code.Append($"\n\n\tauto reconnect: {this.AutoReconnect.IsChecked.ToString()?.ToLower()}");
+        code.Append($"\n\tforce reload: {this.ForceReload.IsChecked.ToString()?.ToLower()}");
+
         // Intents
         var intents = new StringBuilder(); // invents will be separated by ', '
-        if (GatewayIntents.SelectedItems != null)
-            foreach (var item in GatewayIntents.SelectedItems)
+
+        if (this.GatewayIntents.SelectedItems != null)
+            foreach (var item in this.GatewayIntents.SelectedItems)
             {
                 var tag = ((ListBoxItem)item).Tag?.ToString();
-                if (tag is null)
-                    continue;
+
+                if (tag is null) continue;
 
                 if (tag is "default")
                 {
                     intents = new StringBuilder("default intents");
+
                     break;
                 }
 
-                if (intents.Length > 0)
-                    intents.Append(", ");
+                if (intents.Length > 0) intents.Append(", ");
 
                 intents.Append(tag);
             }
 
         code.Append($"\n\n\tintents: {intents.ToString()}");
-        
+
         // Sections
-        if (GenerateReady.IsChecked ?? true)
+        if (this.GenerateReady.IsChecked ?? true)
             code.Append("\n\n\ton ready:\n\t\t# </> Code to execute when the bot is ready");
-        if (GenerateGuildReady.IsChecked ?? true)
+        if (this.GenerateGuildReady.IsChecked ?? true)
             code.Append("\n\n\ton guild ready:\n\t\t# </> Code to execute when a guild is ready");
-        if (GenerateShutdown.IsChecked ?? true)
+        if (this.GenerateShutdown.IsChecked ?? true)
             code.Append("\n\n\ton shutdown:\n\t\t# </> Code to execute when the bot is shutting down");
-        
+
         editor.Document.Insert(offset, code.ToString(), AnchorMovementType.AfterInsertion);
-        Close();
+
+
+        this.Close();
     }
 }

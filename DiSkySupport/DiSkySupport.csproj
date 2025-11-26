@@ -4,15 +4,20 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <version>1.2.0</version>
+        <AssemblyName>DiSkySupport</AssemblyName>
     </PropertyGroup>
-
-    <ItemGroup>
-      <PackageReference Include="Avalonia.HtmlRenderer" Version="11.0.0" />
-      <PackageReference Include="SkEditor" Version="2.1.0" />
-    </ItemGroup>
-
+    
     <ItemGroup>
         <AvaloniaResource Include="Assets\**" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <PackageReference Include="Avalonia.HtmlRenderer" Version="11.0.0" />
+      <PackageReference Include="SkEditor" Version="2.9.3" />
+    </ItemGroup>
 
+    <Target Name="PostBuild" AfterTargets="Build" Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+        <Copy SourceFiles="$(TargetDir)$(TargetFileName)" DestinationFolder="$(AppData)\SkEditor\Addons\$(AssemblyName)\" />
+    </Target>
 </Project>
